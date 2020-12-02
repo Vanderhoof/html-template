@@ -16,7 +16,7 @@
     {% endif %}
   </div>
   <p class="text-grey-dark text-sm">{{msg.summary()}}</p>
-  
+
   {{ tags(msg.tags()) }}
 
   <div class="mt-4 mb-4 markdown">{{ msg.description() | markdown2html | safe }}</div>
@@ -28,6 +28,43 @@
       {{ schema(msg.headers(), 'Headers', open=open) }}
     </div>
   {% endif %}
+
+  {% if msg.bindings %}
+
+  <div class="bg-grey-lighter  rounded">
+    <div class="is-open">
+      <div class="js-prop cursor-pointer py-2 flex property">
+        <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+          <span class="text-sm" style="word-break: break-word;">Bindings</span>
+          <svg class="expand" version="1.1" viewBox="0 0 24 24" x="0" xmlns="http://www.w3.org/2000/svg" y="0">
+            <polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon>
+          </svg>
+        </div>
+      </div>
+    {% set binding = msg.bindings().amqp %}
+      {% if binding.replyTo %}
+      <div class="pr-4">replyTo</div>
+      <div class="children bg-grey-lightest py-4 rounded">
+        {% for k, v in binding.replyTo %}
+        <div class="bg-grey-lightest pl-8 pr-8 rounded">
+          <div class="">
+            <div class=" flex property">
+              <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+                <div class="capitalize text-sm text-teal font-bold">
+                  {{ k}}
+                  <div class="inline-block"></div>
+                </div>
+              </div>
+              <div><span class="text-sm" style="word-break: break-word;">{{ v }}</span></div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
 </div>
 
 {% endmacro %}

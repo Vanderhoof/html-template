@@ -22,6 +22,19 @@
     </h3>
 
     <div class="mt-4 mb-4 markdown">{{ channel.description() | markdown2html | safe }}</div>
+    {% if operation._json['x-scope'] == 'dev' %}
+      {% set badge = '<img src="https://img.shields.io/badge/scope-dev-orange">' %}
+    {% elif operation._json['x-scope'] == 'prod' %}
+      {% set badge = '<img src="https://img.shields.io/badge/scope-prod-green">' %}
+    {% elif operation._json['x-scope'] == 'none' %}
+      {% set badge = '<img src="https://img.shields.io/badge/scope-in--progress-red">' %}
+    {% else %}
+      {% set badge = '' %}
+    {% endif %}
+
+    {% if badge %}
+    <p>{{ badge | safe}} </p>
+    {% endif %}
 
     <p class="text-grey text-sm">{{operation.summary()}}</p>
     <div class="mt-4 mb-4 markdown">{{ operation.description() | markdown2html | safe }}</div>
@@ -48,6 +61,40 @@
           </div>
         </div>
       </div>
+    {% endif %}
+
+    {% if channel.bindings() %}
+    {% set binding = channel.bindings().amqp %}
+    <div class="bg-grey-lighter rounded p-4 mt-2">
+      <h4 class="text-lg mb-4">Bindings</h4>
+      <div class="pr-4"><strong>Is: {{ binding.is }}</strong></div>
+      {% if binding.exchange %}
+      <div class="bg-grey-lightest pl-8 pr-8 py-4 rounded">
+        <div class="pr-4">Exchange</div>
+        {% for k, v in binding.exchange %}
+        <div class="flex property">
+          <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+            <div class="capitalize text-sm text-teal font-bold"> {{ k }}</div>
+          </div>
+          <div><span class="text-sm" style="word-break: break-word;">{{ v }}</span></div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if binding.queue %}
+      <div class="bg-grey-lightest pl-8 pr-8 py-4 rounded">
+        <div class="pr-4">Queue</div>
+        {% for k, v in binding.queue %}
+        <div class="flex property">
+          <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+            <div class="capitalize text-sm text-teal font-bold"> {{ k }}</div>
+          </div>
+          <div><span class="text-sm" style="word-break: break-word;">{{ v }}</span></div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
     {% endif %}
 
 
