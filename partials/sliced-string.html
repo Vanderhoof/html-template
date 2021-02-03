@@ -1,3 +1,7 @@
-{% macro slicedString(str, style='') %}
+{% macro slicedString(str, operationid='', style='') %}
+{% if operationid %}
+{% for slice in str|split('(?=[\.\/\{\}])') %}<h4 id="{{ slice|replace('.', '-') }}" class="string-chunk" {% if style %}style="{{style}}"{% endif %}>{{slice}}</h4>{% endfor %}
+{% else %}
 {% for slice in str|split('(?=[\.\/\{\}])') %}<span class="string-chunk" {% if style %}style="{{style}}"{% endif %}>{{slice}}</span>{% endfor %}
+{% endif %}
 {% endmacro %}
