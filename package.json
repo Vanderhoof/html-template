@@ -1,6 +1,6 @@
 {
   "name": "@asyncapi/html-template",
-  "version": "0.15.4",
+  "version": "0.20.1",
   "description": "HTML template for the AsyncAPI generator.",
   "keywords": [
     "asyncapi",
@@ -22,26 +22,39 @@
     "lint": "echo \"No linter specified yet\"",
     "test": "ava",
     "release": "semantic-release",
-    "get-version": "echo $npm_package_version",
-    "develop": "ag https://raw.githubusercontent.com/asyncapi/generator/v1.0.0-rc.12/test/docs/dummy.yml ./ -o test/output --force-write --watch-template"
+    "develop": "npm run generate:assets && ag https://raw.githubusercontent.com/asyncapi/generator/v1.1.5/test/docs/dummy.yml ./ -o test/output --force-write --watch-template",
+    "//develop:install": "Force ag to install your local html-template source code",
+    "develop:install": " npm run develop -- --install",
+    "generate:maincss": "cross-env NODE_ENV=production postcss template/css/main.css -o template/css/main.min.css",
+    "generate:assets": "rimraf \"template/css/main.min.css\" && npm run generate:maincss",
+    "bump:version": "npm --no-git-tag-version --allow-same-version version $VERSION",
+    "prepublishOnly": "npm run generate:assets"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
     "@asyncapi/generator-filters": "^1.1.0",
+    "autoprefixer": "^10.2.1",
+    "postcss-import": "^14.0.0",
+    "puppeteer": "^5.3.1",
     "rimraf": "^3.0.2",
-    "puppeteer": "^5.3.1"
+    "tailwindcss": "^2.0.2"
   },
   "devDependencies": {
-    "@asyncapi/parser": "^0.27.0",
+    "@asyncapi/parser": "^1.5.0",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/github": "^7.0.4",
     "@semantic-release/npm": "^7.0.3",
     "@semantic-release/release-notes-generator": "^9.0.1",
     "ava": "^3.9.0",
     "conventional-changelog-conventionalcommits": "^4.2.3",
+    "cross-env": "^7.0.3",
+    "postcss-cli": "^8.3.1",
     "semantic-release": "^17.0.4"
+  },
+  "peerDependencies": {
+    "postcss": "^8.2.4"
   },
   "release": {
     "branches": [
@@ -72,6 +85,10 @@
       },
       "baseHref": {
         "description": "Sets the base URL for links and forms.",
+        "required": false
+      },
+      "version": {
+        "description": "Override the version of your application provided under `info.version` location in the specification file.",
         "required": false
       },
       "singleFile": {
