@@ -97,6 +97,33 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Theiaz",
+      "name": "Julian S.",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9378662?v=4",
+      "profile": "https://github.com/Theiaz",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "M3lkior",
+      "name": "Ludovic Dussart",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5501911?v=4",
+      "profile": "http://blog.ineat-conseil.fr/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "dweber019",
+      "name": "David Weber",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1021324?v=4",
+      "profile": "https://w3tec.ch",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
